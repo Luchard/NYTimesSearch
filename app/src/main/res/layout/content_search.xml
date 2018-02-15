@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.luchi.nytimessearch.activities.SearchActivity"
+    tools:showIn="@layout/activity_search">
+
+<!--    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/search"
+        android:onClick="onArticleSearch"
+        />
+
+    <EditText
+        android:id="@+id/etQuery"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:hint="@string/hint" />-->
+
+    <GridView
+        android:id="@+id/rgvResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="43dp"
+        android:numColumns="@integer/column" />
+
+
+</RelativeLayout>
