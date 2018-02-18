@@ -50,6 +50,11 @@ public class SearchActivity extends AppCompatActivity {
     private Intent shareIntent;
     private ShareActionProvider miShareAction;
     private final int REQUEST_CODE = 20;
+    String date ;
+    String sort ;
+    String sport ;
+    String fashion;
+    String art;
 
 
     @Override
@@ -68,11 +73,11 @@ fetchArticles();
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract name value from result extras
-            String date = data.getExtras().getString("date");
-            String sort = data.getExtras().getString("sorted");
-            String sport = data.getExtras().getString("sport");
-            String fashion = data.getExtras().getString("fashion");
-            String art = data.getExtras().getString("art");
+             date = data.getExtras().getString("date");
+             sort = data.getExtras().getString("sorted");
+             sport = data.getExtras().getString("sport");
+            fashion = data.getExtras().getString("fashion");
+             art = data.getExtras().getString("art");
 
             // Toast the name to display temporarily on screen
             Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
@@ -169,7 +174,7 @@ MenuItem item = menu.findItem(R.id.action_settings);
 
 
             public boolean onQueryTextChange(String newText) {
-                fetchArticles(newText);
+               // fetchArticles(newText);
                 return false;
             }
         });
@@ -236,6 +241,10 @@ MenuItem item = menu.findItem(R.id.action_settings);
         params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
         params.put("page", 0);
         params.put("q", query);
+        params.put("begin_date",date);
+        params.put("sort",sort);
+        params.put("news_desk", sport + art + fashion);
+
         client.get(url , params , new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -263,6 +272,9 @@ MenuItem item = menu.findItem(R.id.action_settings);
         RequestParams params = new RequestParams();
         params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
         params.put("page", 0);
+        params.put("begin_date",date);
+        params.put("sort",sort);
+        params.put("news_desk",sport);
 
         client.get(url , params , new JsonHttpResponseHandler(){
             @Override

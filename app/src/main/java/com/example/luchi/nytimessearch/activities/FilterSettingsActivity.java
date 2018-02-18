@@ -31,6 +31,41 @@ public void addListenerOnSpinnerItemSelection(){
         EditText etDate = (EditText) findViewById(R.id.etDate);
         addListenerOnSpinnerItemSelection();
         setupCheckboxes();
+
+        CheckBox checkCart = (CheckBox) findViewById(R.id.checkbox_art);
+// Check if the checkbox is checked
+        boolean isChecked = checkCart.isChecked();
+        if (isChecked)
+        {
+            art = "art";
+        }
+        else
+        {
+            art = "";
+        }
+
+        CheckBox checkSport = (CheckBox) findViewById(R.id.checkbox_sport);
+// Check if the checkbox is checked
+        boolean isCheckedSport = checkSport.isChecked();
+        if (isCheckedSport)
+        {
+            sport = "sports";
+        }
+        else
+        {
+            sport = "";
+        }
+        CheckBox checkfashion = (CheckBox) findViewById(R.id.checkbox_fashion);
+// Check if the checkbox is checked
+        boolean isCheckedfashion = checkfashion.isChecked();
+        if (isChecked)
+        {
+            fashion = "fashion & style";
+        }
+        else
+        {
+            fashion = "";
+        }
 String sort =  String.valueOf(spSort.getSelectedItem());
 
         // Prepare data intent
