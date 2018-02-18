@@ -1,6 +1,11 @@
 package com.example.luchi.nytimessearch.activities;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +39,7 @@ import org.json.JSONObject;
 import org.parceler.Parcel;
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.luchi.nytimessearch.adapter.ArticleArrayAdapter;
@@ -65,7 +71,19 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 //showEditDialog();
 SetupView();
-fetchArticles();
+if (isNetworkAvailable()) {
+    if (isOnline()) {
+        fetchArticles();
+    }
+    else
+    {
+        Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+    }
+}
+else
+{
+    Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
+}
     }
 
     @Override
@@ -130,8 +148,54 @@ fetchArticles();
         //  --> Deserialize and construct new model objects from the API response
         //  --> Append the new data objects to the existing set of items inside the array of items
         //  --> Notify the adapter of the new items made with `notifyDataSetChanged()`
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+        RequestParams params = new RequestParams();
+        params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
+        params.put("page", offset);
+
+
+        client.get(url , params , new JsonHttpResponseHandler(){
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                JSONArray articleJson = null;
+                try {
+                    articleJson = response.getJSONObject("response").getJSONArray("docs");
+                    articleArrayAdapter.addAll(Article.fromJSOnArray(articleJson));
+                    // articleArrayAdapter.notifyDataSetChanged();
+                    articleArrayAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
+    public boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        } catch (IOException e)          { e.printStackTrace(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
+        return false;
+    }
+
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -168,7 +232,13 @@ MenuItem item = menu.findItem(R.id.action_settings);
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();
-                fetchArticles(query);
+                if (isNetworkAvailable()){
+                    if(isOnline()){
+                        fetchArticles(query);
+                    }
+                }
+
+
                 return true;
             }
 
@@ -246,6 +316,7 @@ MenuItem item = menu.findItem(R.id.action_settings);
         params.put("news_desk", sport + art + fashion);
 
         client.get(url , params , new JsonHttpResponseHandler(){
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
@@ -272,11 +343,40 @@ MenuItem item = menu.findItem(R.id.action_settings);
         RequestParams params = new RequestParams();
         params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
         params.put("page", 0);
-        params.put("begin_date",date);
-        params.put("sort",sort);
-        params.put("news_desk",sport);
+
 
         client.get(url , params , new JsonHttpResponseHandler(){
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                JSONArray articleJson = null;
+                try {
+                    articleJson = response.getJSONObject("response").getJSONArray("docs");
+                    articleArrayAdapter.addAll(Article.fromJSOnArray(articleJson));
+                    // articleArrayAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
+
+    public void  fetchArticles(int page){
+        AsyncHttpClient client = new AsyncHttpClient();
+        String url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+        RequestParams params = new RequestParams();
+        params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
+        params.put("page", page);
+
+
+        client.get(url , params , new JsonHttpResponseHandler(){
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
