@@ -4,4 +4,9 @@
     <string name="hint">Enter Search query</string>
     <string name="search">Search</string>
     <string name="title_activity_article">ArticleActivity</string>
+    <string name="title_activity_articles">Articles</string>
+    <string name="enregistrer">Save</string>
+    <string name="checkbox1">Sports</string>
+    <string name="checkbox2"><![CDATA[Fashion & Style]]></string>
+    <string name="checkbox3">Arts</string>
 </resources>

@@ -2,6 +2,8 @@ package com.example.luchi.nytimessearch.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -17,7 +19,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.example.luchi.nytimessearch.EditNameDialogFragment;
 import com.example.luchi.nytimessearch.R;
 import com.example.luchi.nytimessearch.model.EndlessScrollListener;
 import com.loopj.android.http.AsyncHttpClient;
@@ -45,6 +49,7 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<Article> articles;
     private Intent shareIntent;
     private ShareActionProvider miShareAction;
+    private final int REQUEST_CODE = 20;
 
 
     @Override
@@ -53,9 +58,36 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//showEditDialog();
 SetupView();
 fetchArticles();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            // Extract name value from result extras
+            String date = data.getExtras().getString("date");
+            String sort = data.getExtras().getString("sorted");
+            String sport = data.getExtras().getString("sport");
+            String fashion = data.getExtras().getString("fashion");
+            String art = data.getExtras().getString("art");
+
+            // Toast the name to display temporarily on screen
+            Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
+            // items.set(code , name);
+          //  itemsAdapter.notifyDataSetChanged();
+        //    writeItems();
+
+            //items.add(code, name);
+        }
+    }
+
+    private void showEditDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "fragment_edit_name");
     }
 
     public void SetupView(){
@@ -110,7 +142,17 @@ fetchArticles();
     //   shareIntent.putExtra(Intent.EXTRA_TEXT, wvArticle.getUrl());
      //   miShare.setShareIntent(shareIntent);
 
+MenuItem item = menu.findItem(R.id.action_settings);
+       // item.setIntent(new Intent(getApplicationContext() , FilterSettingsActivity.class));
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent i = new Intent(getApplicationContext() , FilterSettingsActivity.class);
 
+                startActivityForResult(i, REQUEST_CODE);
+                return true;
+            }
+        });
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -131,6 +173,10 @@ fetchArticles();
                 return false;
             }
         });
+
+
+
+
 
 
         return super.onCreateOptionsMenu(menu);

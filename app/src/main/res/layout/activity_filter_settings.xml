@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="15dp"
+    tools:context="com.example.luchi.nytimessearch.activities.FilterSettingsActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tvBeginDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Begin Date" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:hint="Entrez la date"
+            android:id="@+id/etDate"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/lbl_your_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort order" />
+
+        <Spinner
+            android:id="@+id/mySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginBottom="40dp"
+
+
+            android:entries="@array/planets_arrays" />
+    </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_marginTop="20dp">
+
+      <TextView
+          android:id="@+id/lbl_your"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="News Desk Values" />
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_marginLeft="20dp"
+          >
+          <CheckBox
+              android:id="@+id/checkbox_art"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/checkbox3" />
+
+          <CheckBox
+              android:id="@+id/checkbox_fashion"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/checkbox2" />
+
+          <CheckBox
+              android:id="@+id/checkbox_sport"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/checkbox1" />
+      </LinearLayout>
+  </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enregistrer"
+        android:layout_marginTop="20dp"
+        android:onClick="onSubmit"
+        android:layout_marginLeft="140dp"/>
+</LinearLayout>
+
+
+
+
