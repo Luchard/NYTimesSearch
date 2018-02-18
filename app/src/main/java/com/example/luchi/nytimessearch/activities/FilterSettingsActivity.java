@@ -35,7 +35,7 @@ String sort =  String.valueOf(spSort.getSelectedItem());
 
         // Prepare data intent
 
-       
+
 
         Intent data = new Intent();
         // Pass relevant data back as a result

@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import com.example.luchi.nytimessearch.model.Article;
+import com.bumptech.glide.Glide;
 
 /**
  * Created by luchi on 2/13/2018.
@@ -44,7 +45,7 @@ public class ArticleArrayAdapter extends ArrayAdapter<Article> {
         String thmubnail = article.getThumbnail();
 
         if(!TextUtils.isEmpty(thmubnail)){
-            Picasso.with(getContext()).load(thmubnail).into(imageView);
+            Glide.with(getContext()).load(thmubnail).into(imageView);
         }
 
         return  convertView;
