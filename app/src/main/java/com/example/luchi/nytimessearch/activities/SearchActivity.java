@@ -56,11 +56,12 @@ public class SearchActivity extends AppCompatActivity {
     private Intent shareIntent;
     private ShareActionProvider miShareAction;
     private final int REQUEST_CODE = 20;
-    String date ;
-    String sort ;
-    String sport ;
-    String fashion;
-    String art;
+    String date = "" ;
+    String sort = "" ;
+    String sport = "" ;
+    String fashion = "";
+    String art = "";
+    String querryAll = "";
 
 
     @Override
@@ -154,6 +155,26 @@ else
         RequestParams params = new RequestParams();
         params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
         params.put("page", offset);
+if(querryAll.length() > 0){
+    params.put("q", querryAll);
+}
+
+
+        if (!date.equals("")){
+            params.put("begin_date",date);
+        }
+        if(sort.length() > 0){
+            params.put("sort",sort);
+        }
+        if(sport.length() > 0){
+            params.put("news_desk", sport);
+        }
+        if(art.length() > 0){
+            params.put("news_desk",  art);
+        }
+        if(fashion.length() > 0){
+            params.put("news_desk", fashion);
+        }
 
 
         client.get(url , params , new JsonHttpResponseHandler(){
@@ -231,6 +252,7 @@ MenuItem item = menu.findItem(R.id.action_settings);
 
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
+                querryAll = query;
                 searchView.clearFocus();
                 if (isNetworkAvailable()){
                     if(isOnline()){
@@ -311,9 +333,23 @@ MenuItem item = menu.findItem(R.id.action_settings);
         params.put("api-key" , "c2b1fdf9a00e4c71b862e8b3a2a0d542");
         params.put("page", 0);
         params.put("q", query);
-        params.put("begin_date",date);
-        params.put("sort",sort);
-        params.put("news_desk", sport + art + fashion);
+        if (!date.equals("")){
+            params.put("begin_date",date);
+        }
+       if(sort.length() > 0){
+           params.put("sort",sort);
+       }
+       if(sport.length() > 0){
+           params.put("news_desk", sport);
+       }
+       if(art.length() > 0){
+           params.put("news_desk",  art);
+       }
+       if(fashion.length() > 0){
+           params.put("news_desk", fashion);
+       }
+
+
 
         client.get(url , params , new JsonHttpResponseHandler(){
             @TargetApi(Build.VERSION_CODES.HONEYCOMB)

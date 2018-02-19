@@ -95,21 +95,21 @@ String sort =  String.valueOf(spSort.getSelectedItem());
             switch(view.getId()) {
                 case R.id.checkbox_art :
                     if (checked) {
-                       art = "art";
+                       art = "Arts";
                     } else {
                         art = "";
                     }
                     break;
                 case R.id.checkbox_fashion:
                     if (checked) {
-                        fashion = "fashion & style" ;
+                        fashion = "Fashion & Style" ;
                     } else {
                         fashion = "";
                     }
                     break;
                 case R.id.checkbox_sport:
                     if (checked) {
-                        sport = "sports";
+                        sport = "Sports";
                     } else {
                         sport = "";
                     }
